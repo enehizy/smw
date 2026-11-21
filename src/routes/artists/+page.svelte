@@ -1,0 +1,137 @@
+<script lang="ts">
+	import { artist, releases } from '#lib/data.ts';
+	import PageHeading from '#lib/components/PageHeading.svelte';
+	import ReleaseGrid from '#lib/components/ReleaseGrid.svelte';
+	import VideoGrid from '#lib/components/VideoGrid.svelte';
+	import Icon from '#lib/components/Icon.svelte';
+</script>
+
+<svelte:head>
+	<title>Artists — Slesh Music Worldwide</title>
+	<meta name="description" content="Discover the talents behind our sound." />
+</svelte:head>
+
+<PageHeading title="Artists" subtitle="Discover the talents behind our sound." />
+
+<section class="profile-wrap">
+	<div class="profile">
+		<div class="hero">
+			<img src={artist.portrait} alt={artist.name} width="500" height="760" />
+			<div class="name-bar">
+				<h2>{artist.name.toUpperCase()}</h2>
+				<ul class="socials">
+					{#each artist.socials as s (s.name)}
+						<li>
+							<a href={s.href} target="_blank" rel="noopener noreferrer" aria-label="{artist.name} on {s.name}">
+								<Icon name={s.icon} />
+							</a>
+						</li>
+					{/each}
+				</ul>
+			</div>
+		</div>
+		<div class="bio card-text">
+			{#each artist.bio as paragraph, i (i)}
+				<p>{paragraph}</p>
+			{/each}
+		</div>
+	</div>
+</section>
+
+<section class="section stack" aria-labelledby="music-heading">
+	<h2 id="music-heading" class="section-heading">Music</h2>
+	<ReleaseGrid {releases} />
+</section>
+
+<section class="section stack" aria-labelledby="videos-heading">
+	<h2 id="videos-heading" class="section-heading">Videos</h2>
+	<VideoGrid />
+</section>
+
+<style>
+	.stack > :global(* + *) {
+		margin-top: 24px;
+	}
+
+	.profile-wrap {
+		padding: 32px var(--gutter);
+	}
+
+	.profile {
+		display: grid;
+		grid-template-columns: 500fr 692fr;
+		align-items: center;
+		gap: 48px;
+		max-width: var(--content);
+		margin-inline: auto;
+	}
+
+	.hero {
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: 500 / 760;
+		background: var(--ink);
+	}
+
+	.hero img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.name-bar {
+		position: absolute;
+		inset: auto 0 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 16px;
+		padding: 24px;
+		background: var(--black);
+		color: var(--white);
+	}
+
+	.name-bar h2 {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(36px, 3.9vw, 56px);
+		line-height: 1.07;
+	}
+
+	.socials {
+		display: flex;
+		gap: 24px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.socials a {
+		display: grid;
+		color: var(--white);
+		transition: color 0.15s ease;
+	}
+
+	.socials a:hover {
+		color: var(--red);
+	}
+
+	.bio {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	@media (max-width: 900px) {
+		.profile {
+			grid-template-columns: 1fr;
+		}
+
+		.hero {
+			aspect-ratio: 4 / 5;
+			max-width: 520px;
+			width: 100%;
+			justify-self: center;
+		}
+	}
+</style>
