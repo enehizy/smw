@@ -15,7 +15,7 @@
 
 <section class="hero">
 	<div class="hero-inner">
-		<img class="hero-logo" src="/images/logo.png" alt="Slesh Music Worldwide logo" width="380" height="380" />
+		<img class="hero-logo" src="/images/logo.webp" alt="Slesh Music Worldwide logo" width="380" height="380" />
 		<div class="hero-content">
 			<h1>More Than Music.<br />A World of Our Own.</h1>
 			<p>Discover the music, artists, and culture shaping the next wave of African entertainment.</p>
@@ -27,7 +27,7 @@
 <section class="section stack" aria-labelledby="artists-heading">
 	<h2 id="artists-heading" class="section-heading">Artists</h2>
 	<a class="artist-card" href="/artists">
-		<img src="/images/big-slesh.jpg" alt="Big Slesh" loading="lazy" />
+		<img src="/images/big-slesh.webp" alt="Big Slesh" loading="lazy" />
 		<span class="artist-name">BIG SLESH</span>
 	</a>
 </section>
@@ -68,7 +68,7 @@
 </section>
 
 <a class="merch" href="/shop" aria-label="Love World merch collection — coming soon. Visit the shop.">
-	<img src="/images/merch-teaser.jpg" alt="" loading="lazy" />
+	<img src="/images/merch-teaser.webp" alt="" loading="lazy" />
 </a>
 
 <section class="section stack" aria-labelledby="contact-heading">

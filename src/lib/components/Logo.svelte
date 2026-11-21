@@ -1,5 +1,5 @@
 <a class="logo" href="/" aria-label="Slesh Music Worldwide, home">
-	<span class="mark"><img src="/images/logo.png" alt="" width="44" height="44" /></span>
+	<span class="mark"><img src="/images/logo.webp" alt="" width="44" height="44" /></span>
 	<span class="word">Slesh<br />Music<br />worldwide</span>
 </a>
 
