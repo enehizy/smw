@@ -32,13 +32,13 @@ export const vision =
 export type Release = { title: string; artists: string; cover: string };
 
 export const releases: Release[] = [
-	{ title: 'Don’t go home', artists: 'Big Slesh ft. Kiiwii', cover: '/images/cover-dont-go-home.jpg' },
-	{ title: 'True Love', artists: 'Big Slesh ft. Soundsfromwest & Arosino', cover: '/images/cover-true-love.jpg' },
-	{ title: 'Tempted', artists: 'Big Slesh', cover: '/images/cover-tempted.jpg' },
-	{ title: 'JO', artists: 'Big Slesh ft. Kiiwii', cover: '/images/cover-jo.jpg' },
-	{ title: 'Anaconda', artists: 'Big Slesh ft. Savage', cover: '/images/cover-anaconda.jpg' },
-	{ title: 'Body', artists: 'Big Slesh ft. Soundsfromwest', cover: '/images/cover-body.jpg' },
-	{ title: 'Love Word', artists: 'Big Slesh', cover: '/images/cover-love-word.jpg' }
+	{ title: 'Don’t go home', artists: 'Big Slesh ft. Kiiwii', cover: '/images/cover-dont-go-home.webp' },
+	{ title: 'True Love', artists: 'Big Slesh ft. Soundsfromwest & Arosino', cover: '/images/cover-true-love.webp' },
+	{ title: 'Tempted', artists: 'Big Slesh', cover: '/images/cover-tempted.webp' },
+	{ title: 'JO', artists: 'Big Slesh ft. Kiiwii', cover: '/images/cover-jo.webp' },
+	{ title: 'Anaconda', artists: 'Big Slesh ft. Savage', cover: '/images/cover-anaconda.webp' },
+	{ title: 'Body', artists: 'Big Slesh ft. Soundsfromwest', cover: '/images/cover-body.webp' },
+	{ title: 'Love Word', artists: 'Big Slesh', cover: '/images/cover-love-word.webp' }
 ];
 
 export const videos = Array.from({ length: 6 }, () => ({
@@ -50,17 +50,17 @@ export const news = [
 	{
 		title: 'Love World EP: Coming Soon!',
 		body: 'We are excited to announce the release of Big Slesh’s EP this December',
-		image: '/images/news-love-world-ep.jpg'
+		image: '/images/news-love-world-ep.webp'
 	},
 	{
 		title: 'ASCEND x Big Slesh',
 		body: 'Ascend Magazine features Big Slesh on its first cover story.',
-		image: '/images/news-ascend.jpg'
+		image: '/images/news-ascend.webp'
 	},
 	{
 		title: 'Love Word: 3 million+ milestone',
 		body: 'Big Slesh’s debut single “Love Word” surpasses 3,000,000 streams',
-		image: '/images/logo.png'
+		image: '/images/logo.webp'
 	}
 ];
 
@@ -83,7 +83,7 @@ export const services: Service[] = [
 			'We collaborate with brands to create impactful partnerships and music-led promotional campaigns that boost brand visibility, connect businesses with target audiences and drive meaningful engagement through artists and entertainment.',
 		cta: 'Start collaborating',
 		subject: 'Brand Partnership',
-		image: '/images/service-brand.jpg'
+		image: '/images/service-brand.webp'
 	},
 	{
 		slug: 'shows-and-performances',
@@ -93,7 +93,7 @@ export const services: Service[] = [
 			'Discover opportunities for artist bookings, live performances, concerts and music events that create memorable entertainment experiences.',
 		cta: 'Book now',
 		subject: 'Show and Performance',
-		image: '/images/service-shows.jpg'
+		image: '/images/service-shows.webp'
 	},
 	{
 		slug: 'music-licensing',
@@ -103,7 +103,7 @@ export const services: Service[] = [
 			'Use our sounds for commercial and creative purposes across advertising, film, television, digital media and other audio-visual productions through music licensing opportunities.',
 		cta: 'Use our music',
 		subject: 'Music Licensing',
-		image: '/images/service-licensing.jpg'
+		image: '/images/service-licensing.webp'
 	}
 ];
 
@@ -116,13 +116,13 @@ export const subjects = [
 ];
 
 export const team = {
-	founder: { name: 'Name Surname', role: 'Founder/CEO', image: '/images/big-slesh.jpg' },
-	members: [1, 2, 3, 4].map((n) => ({ name: 'Name', role: 'Position', image: `/images/team-${n}.jpg` }))
+	founder: { name: 'Name Surname', role: 'Founder/CEO', image: '/images/big-slesh.webp' },
+	members: [1, 2, 3, 4].map((n) => ({ name: 'Name', role: 'Position', image: `/images/team-${n}.webp` }))
 };
 
 export const artist = {
 	name: 'Big Slesh',
-	portrait: '/images/artist-portrait.jpg',
+	portrait: '/images/artist-portrait.webp',
 	socials: [
 		{ name: 'Instagram', icon: 'instagram', href: 'https://instagram.com' },
 		{ name: 'Facebook', icon: 'facebook', href: 'https://facebook.com' },
