@@ -16,5 +16,21 @@ export const variables = defineEnvVars({
 	CONTACT_FROM_EMAIL: {
 		schema: optional,
 		description: 'Sender for contact-form e-mails. Defaults to Resend’s onboarding sender.'
+	},
+
+	// Content manager at /admin (see .env.example). Optional so the site starts without them;
+	// /admin explains what's missing.
+	ADMIN_PASSWORD: {
+		schema: optional,
+		description: 'Password editors type to open the content manager at /admin.'
+	},
+	GITHUB_APP_ID: {
+		schema: optional,
+		description: 'App ID of the GitHub App that saves content-manager edits to the repo.'
+	},
+	GITHUB_APP_PRIVATE_KEY: {
+		schema: optional,
+		description:
+			'Private key (.pem) of that GitHub App. Paste it as-is, with \\n for line breaks, or base64-encoded.'
 	}
 });

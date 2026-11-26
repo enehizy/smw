@@ -1,13 +1,13 @@
 # Sveltia CMS configuration — https://github.com/sveltia/sveltia-cms
 # Each saved entry is committed to the repo as one JSON file; the host rebuilds the site on push.
 
+# Served at /admin/config.yml to signed-in editors only (src/routes/admin/config.yml/+server.ts).
+# Editors sign in with the admin password; the CMS talks to GitHub through this site's
+# /admin/github proxy, which adds a GitHub App key on the server. `api_root` is added when served.
 backend:
   name: github
   repo: enehizy/smw
   branch: main
-  # GitHub sign-in for editors needs the free Sveltia auth worker on Cloudflare:
-  # https://github.com/sveltia/sveltia-cms-auth — deploy it, then uncomment and set its URL:
-  # base_url: https://sveltia-cms-auth.YOUR-SUBDOMAIN.workers.dev
 
 # Uploaded images are committed here and served from /images/uploads/...
 media_folder: static/images/uploads
