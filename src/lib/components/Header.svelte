@@ -9,8 +9,8 @@
 	let panel: HTMLElement | undefined = $state();
 	let toggle: HTMLButtonElement | undefined = $state();
 
-	// Mobile order: Home, About Us, Artists & Music, News & Updates, Shop, Contact.
-	const mobileNav = [...nav.slice(0, 4), { label: 'Shop', href: '/shop' }, ...nav.slice(4)];
+	// Mobile order: the main nav, then Shop last.
+	const mobileNav = [...nav, { label: 'Shop', href: '/shop' }];
 
 	function isActive(href: string) {
 		const path = page.url.pathname;
@@ -209,12 +209,15 @@
 		margin-left: 12px;
 		font-size: 12px;
 		line-height: 16px;
-		padding: 3px 9px;
+		padding: 2px 8px;
+		border: 1px solid var(--red);
+		background: transparent;
+		color: var(--red-text);
 	}
 
 	.mobile-link.active .badge {
-		background: var(--on-accent);
-		color: var(--red-dark);
+		border-color: var(--on-accent);
+		color: var(--on-accent);
 	}
 
 	.menu-toggle {

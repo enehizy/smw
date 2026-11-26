@@ -10,7 +10,7 @@
 	<meta name="description" content="Releases and videos from the Slesh Music Worldwide catalogue." />
 </svelte:head>
 
-<PageHeading title="Music" subtitle="Stream our latest releases and videos." />
+<PageHeading title="Music" subtitle="Explore latest releases and the sounds shaping our identity." />
 
 <section class="section stack" aria-labelledby="music-heading">
 	<h2 id="music-heading" class="section-heading">Music</h2>
