@@ -1,8 +1,27 @@
 <script lang="ts">
-	import { intro, news, releases } from '#lib/data.ts';
+	import { featuredArtists, intro } from '#lib/data.ts';
+	import { news, releases } from '#lib/content.ts';
 	import ReleaseGrid from '#lib/components/ReleaseGrid.svelte';
+	import NewsCard from '#lib/components/NewsCard.svelte';
 	import EmailForm from '#lib/components/EmailForm.svelte';
 	import CallCard from '#lib/components/CallCard.svelte';
+
+	let track: HTMLUListElement | undefined = $state();
+	let index = $state(0);
+	const last = featuredArtists.length - 1;
+
+	function go(to: number) {
+		if (!track) return;
+		index = Math.max(0, Math.min(last, to));
+		const slide = track.children[index] as HTMLElement;
+		track.scrollTo({ left: slide.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+	}
+
+	// Keep the buttons in sync when the visitor swipes instead of clicking.
+	function onScroll() {
+		if (!track) return;
+		index = Math.round(track.scrollLeft / track.clientWidth);
+	}
 </script>
 
 <svelte:head>
@@ -24,12 +43,26 @@
 	</div>
 </section>
 
-<section class="section stack" aria-labelledby="artists-heading">
+<section class="section stack" aria-labelledby="artists-heading" aria-roledescription="carousel">
 	<h2 id="artists-heading" class="section-heading">Artists</h2>
-	<a class="artist-card" href="/artists">
-		<img src="/images/big-slesh.webp" alt="Big Slesh" loading="lazy" />
-		<span class="artist-name">BIG SLESH</span>
-	</a>
+	<div class="slider">
+		<button type="button" class="slide-btn prev" aria-label="Previous artist" disabled={index === 0} onclick={() => go(index - 1)}>
+			<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+		</button>
+		<ul class="artist-track" bind:this={track} onscroll={onScroll}>
+			{#each featuredArtists as a, i (a.name)}
+				<li aria-roledescription="slide" aria-label="{i + 1} of {featuredArtists.length}">
+					<a class="artist-card" href={a.href} tabindex={i === index ? 0 : -1}>
+						<img src={a.image} alt={a.name} loading="lazy" />
+						<span class="artist-name">{a.name.toUpperCase()}</span>
+					</a>
+				</li>
+			{/each}
+		</ul>
+		<button type="button" class="slide-btn next" aria-label="Next artist" disabled={index === last} onclick={() => go(index + 1)}>
+			<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+		</button>
+	</div>
 </section>
 
 <section class="section stack" aria-labelledby="music-heading">
@@ -40,29 +73,22 @@
 	<ReleaseGrid releases={releases.slice(0, 4)} />
 </section>
 
-<section class="about" aria-labelledby="about-heading">
-	<div class="about-heading-wrap">
-		<h2 id="about-heading" class="section-heading">About Us</h2>
-	</div>
-	<div class="about-band">
-		<div class="about-card">
-			<p class="card-text about-copy">{intro}</p>
-			<a class="btn" href="/about">Discover more</a>
-		</div>
+<section class="section stack about" aria-labelledby="about-heading">
+	<h2 id="about-heading" class="section-heading">About Us</h2>
+	<div class="about-card">
+		<p class="card-text about-copy">{intro}</p>
+		<a class="btn" href="/about">Discover more</a>
 	</div>
 </section>
 
 <section class="section stack" aria-labelledby="news-heading">
-	<h2 id="news-heading" class="section-heading">News &amp; Updates</h2>
+	<div class="row">
+		<h2 id="news-heading" class="section-heading">News &amp; Updates</h2>
+		<a class="link" href="/news">See more</a>
+	</div>
 	<ul class="news">
-		{#each news as item (item.title)}
-			<li class="news-card">
-				<img src={item.image} alt="" width="65" height="65" loading="lazy" />
-				<div>
-					<h3 class="card-title">{item.title}</h3>
-					<p class="card-text">{item.body}</p>
-				</div>
-			</li>
+		{#each news.slice(0, 3) as item (item.slug)}
+			<li><NewsCard {item} /></li>
 		{/each}
 	</ul>
 </section>
@@ -80,14 +106,10 @@
 </section>
 
 <style>
-	.stack > :global(* + *) {
-		margin-top: 32px;
-	}
-
 	/* Hero */
 	.hero {
-		background: var(--ink);
-		color: var(--paper);
+		background: var(--dark);
+		color: var(--on-dark);
 		padding: 80px var(--gutter);
 	}
 
@@ -118,7 +140,7 @@
 		font-weight: 400;
 		font-size: clamp(44px, 5.6vw, 80px);
 		line-height: 1.05;
-		color: var(--paper);
+		color: var(--on-dark);
 	}
 
 	.hero-content p {
@@ -130,6 +152,72 @@
 		max-width: 796px;
 	}
 
+	/* Artists slider */
+	/* The image spans the full content width so it lines up with its heading;
+	   the arrows sit in the side gutters, 24px from the image. */
+	.slider {
+		position: relative;
+	}
+
+	.slide-btn {
+		position: absolute;
+		top: 50%;
+		z-index: 1;
+		transform: translateY(-50%);
+		display: grid;
+		place-items: center;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 1px solid var(--red);
+		border-radius: 50%;
+		background: transparent;
+		color: var(--red-text);
+		cursor: pointer;
+		transition:
+			background-color 0.15s ease,
+			color 0.15s ease,
+			opacity 0.15s ease;
+	}
+
+	.slide-btn.prev {
+		left: -68px;
+	}
+
+	.slide-btn.next {
+		right: -68px;
+	}
+
+	.slide-btn:hover:not(:disabled) {
+		background: var(--red);
+		color: var(--on-accent);
+	}
+
+	.slide-btn:disabled {
+		opacity: 0.35;
+		cursor: default;
+	}
+
+	.artist-track {
+		display: flex;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+		border-radius: 32px;
+	}
+
+	.artist-track::-webkit-scrollbar {
+		display: none;
+	}
+
+	.artist-track li {
+		flex: 0 0 100%;
+		scroll-snap-align: start;
+	}
+
 	/* Artist card */
 	.artist-card {
 		position: relative;
@@ -137,7 +225,7 @@
 		overflow: hidden;
 		border-radius: 32px;
 		aspect-ratio: 1240 / 582;
-		background: var(--ink);
+		background: var(--dark);
 	}
 
 	.artist-card img {
@@ -159,7 +247,7 @@
 		font-size: clamp(28px, 4.8vw, 70px);
 		line-height: 1.4;
 		letter-spacing: 0.04em;
-		color: var(--white);
+		color: var(--on-dark);
 		text-shadow: 0 4px 24px rgb(0 0 0 / 0.45);
 	}
 
@@ -176,7 +264,7 @@
 		font-weight: 500;
 		font-size: 20px;
 		line-height: 28px;
-		color: var(--red);
+		color: var(--red-text);
 	}
 
 	.link:hover {
@@ -184,38 +272,29 @@
 	}
 
 	/* About */
+	/* Black band covers the whole section so heading-to-card spacing matches every other section. */
 	.about {
-		padding-block: 40px;
-	}
-
-	.about-heading-wrap {
-		padding-inline: var(--gutter);
-		margin-bottom: 32px;
-	}
-
-	.about-heading-wrap h2 {
-		max-width: var(--content);
-		margin-inline: auto;
-	}
-
-	.about-band {
-		padding: 40px var(--gutter);
 		background: var(--black);
+	}
+
+	.about .section-heading {
+		color: var(--on-dark);
 	}
 
 	.about-card {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		gap: 48px;
 		max-width: var(--content);
 		margin-inline: auto;
-		padding: 56px 32px 56px 74px;
+		padding: 56px 88px;
 		border-radius: var(--radius);
 		background: var(--blush);
 	}
 
 	.about-copy {
-		flex: 1;
+		flex: 0 1 817px;
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
 		line-clamp: 3;
@@ -232,32 +311,9 @@
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 24px;
-		margin: 0;
+		margin-block: 0; /* not `margin: 0`, which would cancel the section's centring */
 		padding: 0;
 		list-style: none;
-	}
-
-	.news-card {
-		display: flex;
-		align-items: center;
-		gap: 16px;
-		padding: 24px;
-		border-radius: var(--radius);
-		background: var(--blush);
-	}
-
-	.news-card img {
-		width: 65px;
-		height: 65px;
-		flex: none;
-		border-radius: 5px;
-		object-fit: cover;
-	}
-
-	.news-card div {
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
 	}
 
 	/* Merch */
@@ -281,6 +337,25 @@
 		grid-template-columns: 760fr 456fr;
 		align-items: start;
 		gap: 24px;
+	}
+
+	/* Gutters get too narrow for outside arrows: overlay them on the image edges. */
+	@media (max-width: 1180px) {
+		.slide-btn {
+			width: 40px;
+			height: 40px;
+			border-color: transparent;
+			background: rgb(0 0 0 / 0.45);
+			color: #fff;
+		}
+
+		.slide-btn.prev {
+			left: 12px;
+		}
+
+		.slide-btn.next {
+			right: 12px;
+		}
 	}
 
 	@media (max-width: 1024px) {
@@ -328,18 +403,19 @@
 
 		.about-card {
 			flex-direction: column;
-			align-items: stretch;
+			align-items: center;
 			padding: 24px 20px;
 			gap: 24px;
 		}
 
 		.about-copy {
+			flex: none;
 			-webkit-line-clamp: 5;
 			line-clamp: 5;
 		}
 
-		.news-card {
-			padding: 16px;
+		.artist-track {
+			border-radius: 16px;
 		}
 	}
 </style>

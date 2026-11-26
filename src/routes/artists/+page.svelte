@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { artist, releases } from '#lib/data.ts';
+	import { artist } from '#lib/data.ts';
+	import { releases } from '#lib/content.ts';
 	import PageHeading from '#lib/components/PageHeading.svelte';
 	import ReleaseGrid from '#lib/components/ReleaseGrid.svelte';
 	import VideoGrid from '#lib/components/VideoGrid.svelte';
@@ -49,10 +50,6 @@
 </section>
 
 <style>
-	.stack > :global(* + *) {
-		margin-top: 24px;
-	}
-
 	.profile-wrap {
 		padding: 32px var(--gutter);
 	}
@@ -70,7 +67,7 @@
 		position: relative;
 		overflow: hidden;
 		aspect-ratio: 500 / 760;
-		background: var(--ink);
+		background: var(--dark);
 	}
 
 	.hero img {
@@ -88,7 +85,7 @@
 		gap: 16px;
 		padding: 24px;
 		background: var(--black);
-		color: var(--white);
+		color: var(--on-dark);
 	}
 
 	.name-bar h2 {
@@ -108,12 +105,12 @@
 
 	.socials a {
 		display: grid;
-		color: var(--white);
+		color: var(--on-dark);
 		transition: color 0.15s ease;
 	}
 
 	.socials a:hover {
-		color: var(--red);
+		color: var(--red-text);
 	}
 
 	.bio {

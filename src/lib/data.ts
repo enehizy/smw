@@ -16,7 +16,8 @@ export const site = {
 export const nav = [
 	{ label: 'Home', href: '/' },
 	{ label: 'About Us', href: '/about' },
-	{ label: 'Artists', href: '/artists' },
+	{ label: 'Artists & Music', href: '/artists' },
+	{ label: 'News & Updates', href: '/news' },
 	{ label: 'Contact', href: '/contact' }
 ];
 
@@ -28,41 +29,6 @@ export const mission =
 
 export const vision =
 	'To become a leading African entertainment company with global influence, recognised for developing outstanding talent, shaping contemporary music culture and taking African creativity to the world.';
-
-export type Release = { title: string; artists: string; cover: string };
-
-export const releases: Release[] = [
-	{ title: 'Don’t go home', artists: 'Big Slesh ft. Kiiwii', cover: '/images/cover-dont-go-home.webp' },
-	{ title: 'True Love', artists: 'Big Slesh ft. Soundsfromwest & Arosino', cover: '/images/cover-true-love.webp' },
-	{ title: 'Tempted', artists: 'Big Slesh', cover: '/images/cover-tempted.webp' },
-	{ title: 'JO', artists: 'Big Slesh ft. Kiiwii', cover: '/images/cover-jo.webp' },
-	{ title: 'Anaconda', artists: 'Big Slesh ft. Savage', cover: '/images/cover-anaconda.webp' },
-	{ title: 'Body', artists: 'Big Slesh ft. Soundsfromwest', cover: '/images/cover-body.webp' },
-	{ title: 'Love Word', artists: 'Big Slesh', cover: '/images/cover-love-word.webp' }
-];
-
-export const videos = Array.from({ length: 6 }, () => ({
-	title: 'Don’t go home',
-	artists: 'Big Slesh ft. Kiiwii'
-}));
-
-export const news = [
-	{
-		title: 'Love World EP: Coming Soon!',
-		body: 'We are excited to announce the release of Big Slesh’s EP this December',
-		image: '/images/news-love-world-ep.webp'
-	},
-	{
-		title: 'ASCEND x Big Slesh',
-		body: 'Ascend Magazine features Big Slesh on its first cover story.',
-		image: '/images/news-ascend.webp'
-	},
-	{
-		title: 'Love Word: 3 million+ milestone',
-		body: 'Big Slesh’s debut single “Love Word” surpasses 3,000,000 streams',
-		image: '/images/logo.webp'
-	}
-];
 
 export type Service = {
 	slug: string;
@@ -112,7 +78,8 @@ export const subjects = [
 	'Brand Partnership',
 	'Show and Performance',
 	'Appearance',
-	'Music Licensing'
+	'Music Licensing',
+	'Others'
 ];
 
 export const team = {
@@ -136,3 +103,6 @@ export const artist = {
 		'Integer sem commodo pellentesque quis tortor viverra ac. Lorem posuere velit aenean laoreet tellus orci lacinia nibh sit. Id praesent odio elit diam et id. Vel eu vel facilisis et pellentesque nisi sollicitudin nulla etiam. Egestas leo aliquam a ac integer amet. Porta tellus mi ultricies lectus nunc fringilla enim. Tempus aliquam egestas sed ut nec amet blandit tellus eget.'
 	]
 };
+
+// Artists shown in the home page slider. Add more entries here to enable the slide buttons.
+export const featuredArtists = [{ name: artist.name, image: '/images/big-slesh.webp', href: '/artists' }];

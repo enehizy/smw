@@ -51,7 +51,7 @@
 </section>
 
 <Modal bind:open={emailOpen} label="Send an e-mail">
-	<EmailForm idPrefix="contact-email" subject={presetSubject} />
+	<EmailForm idPrefix="contact-email" subject={presetSubject} inModal />
 </Modal>
 
 <Modal bind:open={callOpen} label="Give us a call" width={480}>
@@ -101,7 +101,7 @@
 		place-items: center;
 		width: 26px;
 		flex: none;
-		color: var(--red);
+		color: var(--red-text);
 	}
 
 	.text {

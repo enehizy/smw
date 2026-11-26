@@ -30,7 +30,7 @@
 		font-weight: 400;
 		font-size: 56px;
 		line-height: 60px;
-		color: var(--red);
+		color: var(--red-text);
 		flex: none;
 	}
 
@@ -38,7 +38,7 @@
 		align-self: stretch;
 		width: 1px;
 		margin-block: 4px;
-		background: rgb(89 89 89 / 0.25);
+		background: var(--line);
 		flex: none;
 	}
 

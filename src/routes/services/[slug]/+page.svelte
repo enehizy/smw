@@ -57,7 +57,7 @@
 		font-family: var(--font-heading);
 		font-weight: 500;
 		font-size: 15px;
-		color: var(--red);
+		color: var(--red-text);
 	}
 
 	.others a:hover {

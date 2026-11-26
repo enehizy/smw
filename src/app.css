@@ -17,6 +17,34 @@
 	--gutter: clamp(20px, 6.95vw, 100px);
 	--content: 1240px;
 	--radius: 10px;
+
+	/* Theme-aware roles. Light values match the Figma design; dark values are redefined below. */
+	color-scheme: light;
+	--bg: #ffffff;
+	--bg-rgb: 255 255 255;
+	--red-text: #b71c2c;
+	--on-accent: #fff5f5;
+	--on-dark: #f5f5f5;
+	--dark: #121212;
+	--blush-strong: #fde4e6;
+	--placeholder: #d9d9d9;
+	--line: rgb(89 89 89 / 0.25);
+	--line-strong: rgb(89 89 89 / 0.5);
+}
+
+:root[data-theme='dark'] {
+	color-scheme: dark;
+	--bg: #121212;
+	--bg-rgb: 18 18 18;
+	--ink: #f2f2f2;
+	--muted: #a6a6a6;
+	--blush: #1f1a1b;
+	--paper: #262626;
+	--red-text: #ff6b78;
+	--blush-strong: #3a2226;
+	--placeholder: #2a2a2a;
+	--line: rgb(255 255 255 / 0.16);
+	--line-strong: rgb(255 255 255 / 0.32);
 }
 
 *,
@@ -31,7 +59,7 @@ html {
 
 body {
 	margin: 0;
-	background: var(--white);
+	background: var(--bg);
 	color: var(--ink);
 	font-family: var(--font-body);
 	font-size: 18px;
@@ -88,6 +116,18 @@ p {
 	margin-inline: auto;
 }
 
+/* Every titled section: heading, then content, 24px apart (matches Figma at all sizes).
+   Spacing comes from the container's gap, so no child's own margin reset can change it. */
+.stack {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	row-gap: 24px;
+}
+
+.stack > * {
+	width: 100%;
+}
+
 .section-heading {
 	font-family: var(--font-heading);
 	font-weight: 600;
@@ -108,7 +148,7 @@ p {
 	border: 1px solid transparent;
 	border-radius: var(--radius);
 	background: var(--red);
-	color: var(--blush);
+	color: var(--on-accent);
 	font-family: var(--font-heading);
 	font-weight: 500;
 	font-size: 20px;
@@ -162,6 +202,10 @@ p {
 }
 
 @media (max-width: 600px) {
+	.section {
+		padding-block: 32px;
+	}
+
 	body {
 		font-size: 16px;
 		line-height: 24px;
@@ -201,7 +245,7 @@ p {
 	width: 100%;
 	min-height: 52px;
 	padding: 12px;
-	border: 1px solid rgb(89 89 89 / 0.25);
+	border: 1px solid var(--line);
 	border-radius: 5px;
 	background: transparent;
 	color: var(--ink);
@@ -217,7 +261,7 @@ p {
 }
 
 .field:hover {
-	border-color: rgb(89 89 89 / 0.5);
+	border-color: var(--line-strong);
 }
 
 .field:focus,
@@ -235,7 +279,7 @@ p {
 	margin-top: 4px;
 	font-size: 13px;
 	line-height: 18px;
-	color: var(--red);
+	color: var(--red-text);
 }
 
 @media (max-width: 600px) {

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Release } from '../data.ts';
+	import type { Release } from '../content.ts';
 	import ReleaseCard from './ReleaseCard.svelte';
 
 	let { releases }: { releases: Release[] } = $props();
 </script>
 
 <div class="grid">
-	{#each releases as release (release.title)}
+	{#each releases as release (release.slug)}
 		<ReleaseCard {release} />
 	{/each}
 </div>

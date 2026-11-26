@@ -31,7 +31,7 @@
 
 	.icon {
 		display: grid;
-		color: var(--red);
+		color: var(--red-text);
 	}
 
 	.phone {
@@ -40,7 +40,7 @@
 	}
 
 	.phone:hover {
-		color: var(--red);
+		color: var(--red-text);
 		text-decoration: underline;
 	}
 </style>

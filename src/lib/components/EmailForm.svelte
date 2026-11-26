@@ -2,9 +2,18 @@
 	import Icon from './Icon.svelte';
 	import SubjectSelect from './SubjectSelect.svelte';
 	import SuccessState from './SuccessState.svelte';
+	import Modal from './Modal.svelte';
 
-	let { subject: initialSubject = '', idPrefix = 'email' }: { subject?: string; idPrefix?: string } =
-		$props();
+	let {
+		subject: initialSubject = '',
+		idPrefix = 'email',
+		inModal = false
+	}: {
+		subject?: string;
+		idPrefix?: string;
+		/** True when the form already sits inside a Modal: show success in place instead of opening another. */
+		inModal?: boolean;
+	} = $props();
 
 	let name = $state('');
 	let email = $state('');
@@ -12,9 +21,12 @@
 	// svelte-ignore state_referenced_locally
 	let subject = $state(initialSubject);
 	let message = $state('');
+	let website = $state(''); // honeypot
 	let errors = $state<Record<string, string>>({});
 	let sending = $state(false);
 	let sent = $state(false);
+	let successOpen = $state(false);
+	let sendError = $state('');
 
 	function validate() {
 		const e: Record<string, string> = {};
@@ -30,10 +42,32 @@
 		errors = validate();
 		if (Object.keys(errors).length) return;
 		sending = true;
-		// TODO: connect to an e-mail service or API endpoint.
-		await new Promise((r) => setTimeout(r, 600));
-		sending = false;
-		sent = true;
+		sendError = '';
+		try {
+			const res = await fetch('/api/contact', {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({ name, email, subject, message, website })
+			});
+			if (!res.ok) {
+				const data = await res.json().catch(() => null);
+				sendError = data?.message ?? 'Your message could not be sent. Please try again.';
+				return;
+			}
+		} catch {
+			sendError = 'Network error. Please check your connection and try again.';
+			return;
+		} finally {
+			sending = false;
+		}
+
+		if (inModal) {
+			sent = true;
+		} else {
+			// Clear the inline form and confirm in a modal, like the Contact page.
+			name = email = subject = message = '';
+			successOpen = true;
+		}
 	}
 </script>
 
@@ -83,6 +117,11 @@
 					{#if errors.subject}<p class="field-error">{errors.subject}</p>{/if}
 				</div>
 
+				<div class="hp" aria-hidden="true">
+					<label for="{idPrefix}-website">Website</label>
+					<input id="{idPrefix}-website" tabindex="-1" autocomplete="off" bind:value={website} />
+				</div>
+
 				<div>
 					<label class="visually-hidden" for="{idPrefix}-message">Message</label>
 					<textarea
@@ -97,10 +136,19 @@
 				</div>
 			</div>
 
+			{#if sendError}<p class="field-error send-error" role="alert">{sendError}</p>{/if}
 			<button class="btn send" type="submit" disabled={sending}>{sending ? 'Sending…' : 'Send'}</button>
 		</form>
 	{/if}
 </div>
+
+{#if !inModal}
+	<Modal bind:open={successOpen} label="E-mail sent" width={480}>
+		<div class="success-card">
+			<SuccessState title="E-mail Sent!" message="We will respond to you shortly." />
+		</div>
+	</Modal>
+{/if}
 
 <style>
 	.email-card {
@@ -129,7 +177,7 @@
 
 	.icon {
 		display: grid;
-		color: var(--red);
+		color: var(--red-text);
 	}
 
 	.message {
@@ -140,6 +188,24 @@
 
 	.send {
 		align-self: center;
+	}
+
+	.send-error {
+		margin: -8px 0 0;
+		text-align: center;
+	}
+
+	.hp {
+		position: absolute;
+		left: -10000px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+
+	.success-card {
+		border-radius: 25px;
+		background: var(--blush);
 	}
 
 	@media (max-width: 600px) {

@@ -115,7 +115,7 @@
 
 	.chevron {
 		display: grid;
-		color: var(--black);
+		color: var(--ink);
 		transition: transform 0.2s ease;
 	}
 
@@ -145,11 +145,11 @@
 	}
 
 	li.active {
-		background: #fde4e6;
+		background: var(--blush-strong);
 	}
 
 	li[aria-selected='true'] {
 		font-weight: 500;
-		color: var(--red);
+		color: var(--red-text);
 	}
 </style>
