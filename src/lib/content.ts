@@ -1,6 +1,7 @@
 // Editable content (managed in Sveltia CMS at /admin) lives as one JSON file per item
 // under src/content/. Files are bundled at build time; a CMS commit triggers a rebuild.
 import { marked } from 'marked';
+import type { IconName } from './icons.ts';
 
 export type StreamingPlatform = 'spotify' | 'apple' | 'audiomack' | 'boomplay' | 'youtube';
 
@@ -140,6 +141,65 @@ export const news: NewsItem[] = load(
 	}))
 	.filter((n) => n.title && n.date)
 	.sort(byDateDesc);
+
+const socialPlatforms = [
+	{ key: 'instagram', label: 'Instagram' },
+	{ key: 'facebook', label: 'Facebook' },
+	{ key: 'youtube', label: 'YouTube' },
+	{ key: 'tiktok', label: 'TikTok' },
+	{ key: 'x', label: 'X' }
+] as const satisfies readonly { key: IconName; label: string }[];
+
+export type Artist = {
+	slug: string;
+	name: string;
+	order: number;
+	/** Tall photo for the Artists page profile. */
+	portrait: string;
+	/** Wide photo for the home page slider (falls back to the portrait). */
+	banner: string;
+	socials: { name: string; icon: IconName; href: string }[];
+	/** Biography rendered from Markdown. Authored by trusted CMS editors only. */
+	html: string;
+};
+
+/** Sorted by `order`; every artist appears on the Artists page and in the home slider. */
+export const artists: Artist[] = load(
+	import.meta.glob('/src/content/artists/*.json', { eager: true, import: 'default' })
+)
+	.map(({ slug, data }) => {
+		const raw = (data.socials ?? {}) as Raw;
+		const portrait = text(data.portrait);
+		return {
+			slug,
+			name: text(data.name),
+			order: Number(data.order) || 999,
+			portrait,
+			banner: text(data.banner) || portrait,
+			socials: socialPlatforms
+				.map((p) => ({ name: p.label, icon: p.key as IconName, href: cleanUrl(raw[p.key]) }))
+				.filter((s) => s.href),
+			html: marked.parse(text(data.bio), { async: false })
+		};
+	})
+	.filter((a) => a.name && a.portrait)
+	.sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
+
+export type TeamMember = { slug: string; name: string; role: string; photo: string; order: number };
+
+/** Sorted by `order`; the first person is shown large on the About page. */
+export const team: TeamMember[] = load(
+	import.meta.glob('/src/content/team/*.json', { eager: true, import: 'default' })
+)
+	.map(({ slug, data }) => ({
+		slug,
+		name: text(data.name),
+		role: text(data.role),
+		photo: text(data.photo) || '/images/logo.webp',
+		order: Number(data.order) || 999
+	}))
+	.filter((m) => m.name)
+	.sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
 
 export function formatDate(iso: string) {
 	const d = new Date(iso.slice(0, 10) + 'T00:00:00');

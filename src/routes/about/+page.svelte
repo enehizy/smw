@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { intro, mission, services, team, vision } from '#lib/data.ts';
+	import { intro, mission, services, vision } from '#lib/data.ts';
+	import { team } from '#lib/content.ts';
 	import PageHeading from '#lib/components/PageHeading.svelte';
 	import Icon from '#lib/components/Icon.svelte';
 </script>
@@ -44,16 +45,9 @@
 	<section aria-labelledby="team-heading">
 		<h2 id="team-heading" class="section-heading">Meet Our Team</h2>
 		<div class="team">
-			<figure class="member founder">
-				<img src={team.founder.image} alt={team.founder.name} loading="lazy" />
-				<figcaption>
-					<span class="card-title">{team.founder.name}</span>
-					<span class="card-text">{team.founder.role}</span>
-				</figcaption>
-			</figure>
-			{#each team.members as m, i (i)}
-				<figure class="member">
-					<img src={m.image} alt={m.name} loading="lazy" />
+			{#each team as m, i (m.slug)}
+				<figure class="member" class:founder={i === 0}>
+					<img src={m.photo} alt={m.name} loading="lazy" />
 					<figcaption>
 						<span class="card-title">{m.name}</span>
 						<span class="card-text">{m.role}</span>
@@ -177,7 +171,7 @@
 	.team {
 		display: grid;
 		grid-template-columns: 2fr 1.5fr 1.5fr;
-		grid-template-rows: 200px 200px;
+		grid-auto-rows: 200px; /* rows repeat, so any number of members fits */
 		margin-top: 24px;
 		border: 1px solid var(--muted);
 	}
@@ -240,7 +234,8 @@
 
 		.team {
 			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 320px 200px 200px;
+			grid-template-rows: 320px;
+			grid-auto-rows: 200px;
 		}
 
 		.founder {
@@ -259,7 +254,8 @@
 		}
 
 		.team {
-			grid-template-rows: 280px 170px 170px;
+			grid-template-rows: 280px;
+			grid-auto-rows: 170px;
 		}
 	}
 </style>

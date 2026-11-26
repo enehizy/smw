@@ -1,7 +1,11 @@
 <script lang="ts">
-	import { videos, type Video } from '../content.ts';
+	import { videos as allVideos, type Video } from '../content.ts';
 	import Icon from './Icon.svelte';
 	import Modal from './Modal.svelte';
+
+	/** Show only the newest `limit` videos (e.g. on the home page). */
+	let { limit }: { limit?: number } = $props();
+	const videos = $derived(limit ? allVideos.slice(0, limit) : allVideos);
 
 	let playing = $state<Video | null>(null);
 	let open = $state(false);
@@ -123,15 +127,15 @@
 		border: 0;
 	}
 
-	@media (max-width: 900px) {
-		.grid {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-	}
-
+	/* Figma: 3 per row down to tablet, 2 per row on phones. */
 	@media (max-width: 600px) {
 		.grid {
-			grid-template-columns: 1fr;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 24px 16px;
+		}
+
+		.meta {
+			padding-inline: 4px;
 		}
 	}
 </style>

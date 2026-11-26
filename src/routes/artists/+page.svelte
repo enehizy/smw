@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { artist } from '#lib/data.ts';
-	import { releases } from '#lib/content.ts';
+	import { artists, releases } from '#lib/content.ts';
 	import PageHeading from '#lib/components/PageHeading.svelte';
 	import ReleaseGrid from '#lib/components/ReleaseGrid.svelte';
 	import VideoGrid from '#lib/components/VideoGrid.svelte';
@@ -14,30 +13,31 @@
 
 <PageHeading title="Artists" subtitle="Discover the talents behind our sound." />
 
-<section class="profile-wrap">
-	<div class="profile">
-		<div class="hero">
-			<img src={artist.portrait} alt={artist.name} width="500" height="760" />
-			<div class="name-bar">
-				<h2>{artist.name.toUpperCase()}</h2>
-				<ul class="socials">
-					{#each artist.socials as s (s.name)}
-						<li>
-							<a href={s.href} target="_blank" rel="noopener noreferrer" aria-label="{artist.name} on {s.name}">
-								<Icon name={s.icon} />
-							</a>
-						</li>
-					{/each}
-				</ul>
+{#each artists as artist (artist.slug)}
+	<section class="profile-wrap" id={artist.slug} aria-label={artist.name}>
+		<div class="profile">
+			<div class="hero">
+				<img src={artist.portrait} alt={artist.name} width="500" height="760" />
+				<div class="name-bar">
+					<h2>{artist.name.toUpperCase()}</h2>
+					{#if artist.socials.length}
+						<ul class="socials">
+							{#each artist.socials as s (s.name)}
+								<li>
+									<a href={s.href} target="_blank" rel="noopener noreferrer" aria-label="{artist.name} on {s.name}">
+										<Icon name={s.icon} />
+									</a>
+								</li>
+{/each}
+					</ul>
+				{/if}
 			</div>
 		</div>
-		<div class="bio card-text">
-			{#each artist.bio as paragraph, i (i)}
-				<p>{paragraph}</p>
-			{/each}
-		</div>
+		<!-- Markdown from the CMS, written by trusted editors. -->
+		<div class="bio card-text">{@html artist.html}</div>
 	</div>
 </section>
+{/each}
 
 <section class="section stack" aria-labelledby="music-heading">
 	<h2 id="music-heading" class="section-heading">Music</h2>
