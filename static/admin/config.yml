@@ -115,3 +115,73 @@ collections:
         format: YYYY-MM-DD
         time_format: false
         hint: Newest videos appear first.
+
+  - name: team
+    label: Team
+    label_singular: Team member
+    folder: src/content/team
+    extension: json
+    format: json
+    create: true
+    slug: '{{slug}}'
+    identifier_field: name
+    summary: '{{order}}. {{name}} — {{role}}'
+    sortable_fields: [order, name]
+    fields:
+      - { name: name, label: Name, widget: string }
+      - name: role
+        label: Role
+        widget: string
+        hint: e.g. Founder/CEO, A&R Manager
+      - name: photo
+        label: Photo
+        widget: image
+        hint: A portrait photo; it is cropped to fill the tile.
+      - name: order
+        label: Order
+        widget: number
+        value_type: int
+        min: 1
+        default: 10
+        hint: Lower numbers appear first. The person with the lowest number (e.g. the founder) is shown large.
+
+  - name: artists
+    label: Artists
+    label_singular: Artist
+    folder: src/content/artists
+    extension: json
+    format: json
+    create: true
+    slug: '{{slug}}'
+    identifier_field: name
+    summary: '{{order}}. {{name}}'
+    sortable_fields: [order, name]
+    fields:
+      - { name: name, label: Name, widget: string }
+      - name: order
+        label: Order
+        widget: number
+        value_type: int
+        min: 1
+        default: 10
+        hint: Lower numbers appear first on the Artists page and in the home page slider.
+      - name: portrait
+        label: Portrait photo
+        widget: image
+        hint: Tall photo for the Artists page (about 500 × 760).
+      - name: banner
+        label: Home page photo
+        widget: image
+        required: false
+        hint: Wide photo for the home page slider. Leave empty to use the portrait.
+      - name: socials
+        label: Social links
+        widget: object
+        hint: Paste the full profile link for each platform. Empty ones are hidden.
+        fields:
+          - { name: instagram, label: Instagram, widget: string, required: false }
+          - { name: facebook, label: Facebook, widget: string, required: false }
+          - { name: youtube, label: YouTube, widget: string, required: false }
+          - { name: tiktok, label: TikTok, widget: string, required: false }
+          - { name: x, label: X (Twitter), widget: string, required: false }
+      - { name: bio, label: Biography, widget: markdown }

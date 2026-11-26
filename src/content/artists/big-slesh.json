@@ -1,0 +1,14 @@
+{
+	"name": "Big Slesh",
+	"order": 1,
+	"portrait": "/images/artist-portrait.webp",
+	"banner": "/images/big-slesh.webp",
+	"socials": {
+		"instagram": "https://instagram.com",
+		"facebook": "https://facebook.com",
+		"youtube": "https://youtube.com",
+		"tiktok": "https://tiktok.com",
+		"x": "https://x.com"
+	},
+	"bio": "Lorem ipsum dolor sit amet consectetur. Consequat tincidunt commodo platea massa iaculis rhoncus id. Sed vel etiam amet sit in quam rhoncus. Tristique eget arcu lectus porttitor tincidunt tellus. Lorem bibendum id neque vestibulum.\n\nBlandit commodo sit mauris turpis nisi id. Massa augue consectetur pellentesque mauris non felis amet. Rhoncus at viverra rutrum dolor. Sed est amet ornare tortor. Volutpat vitae ac augue scelerisque amet rhoncus tellus sapien tortor. Odio morbi odio vitae dui id leo faucibus sit. Ipsum dolor volutpat nibh a aliquet non nunc leo egestas. Ligula nibh a viverra dui mattis.\n\nInteger sem commodo pellentesque quis tortor viverra ac. Lorem posuere velit aenean laoreet tellus orci lacinia nibh sit. Id praesent odio elit diam et id. Vel eu vel facilisis et pellentesque nisi sollicitudin nulla etiam. Egestas leo aliquam a ac integer amet. Porta tellus mi ultricies lectus nunc fringilla enim. Tempus aliquam egestas sed ut nec amet blandit tellus eget."
+}

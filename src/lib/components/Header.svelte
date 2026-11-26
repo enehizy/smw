@@ -16,7 +16,7 @@
 		const path = page.url.pathname;
 		if (href === '/') return path === '/';
 		if (href === '/about') return path === '/about' || path.startsWith('/services');
-		if (href === '/artists') return path.startsWith('/artists') || path.startsWith('/music');
+		if (href === '/artists') return ['/artists', '/music', '/videos'].some((p) => path.startsWith(p));
 		return path.startsWith(href);
 	}
 

@@ -81,28 +81,3 @@ export const subjects = [
 	'Music Licensing',
 	'Others'
 ];
-
-export const team = {
-	founder: { name: 'Name Surname', role: 'Founder/CEO', image: '/images/big-slesh.webp' },
-	members: [1, 2, 3, 4].map((n) => ({ name: 'Name', role: 'Position', image: `/images/team-${n}.webp` }))
-};
-
-export const artist = {
-	name: 'Big Slesh',
-	portrait: '/images/artist-portrait.webp',
-	socials: [
-		{ name: 'Instagram', icon: 'instagram', href: 'https://instagram.com' },
-		{ name: 'Facebook', icon: 'facebook', href: 'https://facebook.com' },
-		{ name: 'YouTube', icon: 'youtube', href: 'https://youtube.com' },
-		{ name: 'TikTok', icon: 'tiktok', href: 'https://tiktok.com' },
-		{ name: 'X', icon: 'x', href: 'https://x.com' }
-	] satisfies { name: string; icon: IconName; href: string }[],
-	bio: [
-		'Lorem ipsum dolor sit amet consectetur. Consequat tincidunt commodo platea massa iaculis rhoncus id. Sed vel etiam amet sit in quam rhoncus. Tristique eget arcu lectus porttitor tincidunt tellus. Lorem bibendum id neque vestibulum.',
-		'Blandit commodo sit mauris turpis nisi id. Massa augue consectetur pellentesque mauris non felis amet. Rhoncus at viverra rutrum dolor. Sed est amet ornare tortor. Volutpat vitae ac augue scelerisque amet rhoncus tellus sapien tortor. Odio morbi odio vitae dui id leo faucibus sit. Ipsum dolor volutpat nibh a aliquet non nunc leo egestas. Ligula nibh a viverra dui mattis.',
-		'Integer sem commodo pellentesque quis tortor viverra ac. Lorem posuere velit aenean laoreet tellus orci lacinia nibh sit. Id praesent odio elit diam et id. Vel eu vel facilisis et pellentesque nisi sollicitudin nulla etiam. Egestas leo aliquam a ac integer amet. Porta tellus mi ultricies lectus nunc fringilla enim. Tempus aliquam egestas sed ut nec amet blandit tellus eget.'
-	]
-};
-
-// Artists shown in the home page slider. Add more entries here to enable the slide buttons.
-export const featuredArtists = [{ name: artist.name, image: '/images/big-slesh.webp', href: '/artists' }];

@@ -1,14 +1,15 @@
 <script lang="ts">
-	import { featuredArtists, intro } from '#lib/data.ts';
-	import { news, releases } from '#lib/content.ts';
+	import { intro } from '#lib/data.ts';
+	import { artists, news, releases } from '#lib/content.ts';
 	import ReleaseGrid from '#lib/components/ReleaseGrid.svelte';
 	import NewsCard from '#lib/components/NewsCard.svelte';
+	import VideoGrid from '#lib/components/VideoGrid.svelte';
 	import EmailForm from '#lib/components/EmailForm.svelte';
 	import CallCard from '#lib/components/CallCard.svelte';
 
 	let track: HTMLUListElement | undefined = $state();
 	let index = $state(0);
-	const last = featuredArtists.length - 1;
+	const last = Math.max(0, artists.length - 1);
 
 	function go(to: number) {
 		if (!track) return;
@@ -50,10 +51,10 @@
 			<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
 		</button>
 		<ul class="artist-track" bind:this={track} onscroll={onScroll}>
-			{#each featuredArtists as a, i (a.name)}
-				<li aria-roledescription="slide" aria-label="{i + 1} of {featuredArtists.length}">
-					<a class="artist-card" href={a.href} tabindex={i === index ? 0 : -1}>
-						<img src={a.image} alt={a.name} loading="lazy" />
+			{#each artists as a, i (a.slug)}
+				<li aria-roledescription="slide" aria-label="{i + 1} of {artists.length}">
+					<a class="artist-card" href="/artists#{a.slug}" tabindex={i === index ? 0 : -1}>
+						<img src={a.banner} alt={a.name} loading="lazy" />
 						<span class="artist-name">{a.name.toUpperCase()}</span>
 					</a>
 				</li>
@@ -73,6 +74,14 @@
 	<ReleaseGrid releases={releases.slice(0, 4)} />
 </section>
 
+<section class="section stack" aria-labelledby="videos-heading">
+	<div class="row">
+		<h2 id="videos-heading" class="section-heading">Latest Videos</h2>
+		<a class="link" href="/videos">View all</a>
+	</div>
+	<VideoGrid limit={3} />
+</section>
+
 <section class="section stack about" aria-labelledby="about-heading">
 	<h2 id="about-heading" class="section-heading">About Us</h2>
 	<div class="about-card">
@@ -84,7 +93,7 @@
 <section class="section stack" aria-labelledby="news-heading">
 	<div class="row">
 		<h2 id="news-heading" class="section-heading">News &amp; Updates</h2>
-		<a class="link" href="/news">See more</a>
+		<a class="link" href="/news">View all</a>
 	</div>
 	<ul class="news">
 		{#each news.slice(0, 3) as item (item.slug)}
