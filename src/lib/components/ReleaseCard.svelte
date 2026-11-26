@@ -5,6 +5,8 @@
 	let { release }: { release: Release } = $props();
 
 	const available = $derived(platforms.filter((p) => release.links[p.key]));
+	// Platform links open a "Listen on" modal; a single listen link opens directly.
+	const mode = $derived(available.length ? 'modal' : release.link ? 'link' : 'none');
 	let open = $state(false);
 </script>
 
@@ -17,16 +19,20 @@
 {/snippet}
 
 <article class="release">
-	{#if available.length}
+	{#if mode === 'modal'}
 		<button class="hit" type="button" aria-haspopup="dialog" aria-label="Listen to {release.title}" onclick={() => (open = true)}>
 			{@render card()}
 		</button>
+	{:else if mode === 'link'}
+		<a class="hit" href={release.link} target="_blank" rel="noopener noreferrer" aria-label="Listen to {release.title} (opens in a new tab)">
+			{@render card()}
+		</a>
 	{:else}
 		<div class="hit static">{@render card()}</div>
 	{/if}
 </article>
 
-{#if available.length}
+{#if mode === 'modal'}
 	<Modal bind:open label="Listen to {release.title}" width={420}>
 		<div class="listen">
 			<img src={release.cover} alt="" width="96" height="96" />
@@ -40,6 +46,13 @@
 						</a>
 					</li>
 				{/each}
+				{#if release.link}
+					<li>
+						<a class="platform" href={release.link} target="_blank" rel="noopener noreferrer">
+							All platforms<span aria-hidden="true">↗</span>
+						</a>
+					</li>
+				{/if}
 			</ul>
 		</div>
 	</Modal>
@@ -75,7 +88,7 @@
 		transition: transform 0.2s ease;
 	}
 
-	button.hit:hover img {
+	.hit:not(.static):hover img {
 		transform: translateY(-3px);
 	}
 
