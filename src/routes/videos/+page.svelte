@@ -8,7 +8,7 @@
 	<meta name="description" content="Music videos from Slesh Music Worldwide artists." />
 </svelte:head>
 
-<PageHeading title="Videos" subtitle="Watch the latest from our artists." />
+<PageHeading title="Videos" subtitle="Watch latest music videos and the visuals shaping our identity." />
 
 <section class="section" aria-label="All videos">
 	<VideoGrid />
