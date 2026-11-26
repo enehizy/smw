@@ -18,6 +18,8 @@ export type Release = {
 	artists: string;
 	cover: string;
 	date: string;
+	/** One link for all platforms (smart link such as lnk.to / vyd.co, or a YouTube link). */
+	link: string;
 	links: Partial<Record<StreamingPlatform, string>>;
 };
 
@@ -50,6 +52,23 @@ function load(files: Record<string, unknown>) {
 }
 
 const text = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
+
+const TRACKING_PARAMS = /^(utm_\w+|fbclid|gclid|igshid|si)$/;
+
+/** Strips social-media tracking parameters (utm_*, fbclid, si…) that come with copied links. */
+export function cleanUrl(value: unknown): string {
+	const raw = text(value);
+	if (!raw) return '';
+	try {
+		const u = new URL(raw);
+		for (const key of [...u.searchParams.keys()]) {
+			if (TRACKING_PARAMS.test(key)) u.searchParams.delete(key);
+		}
+		return u.toString();
+	} catch {
+		return '';
+	}
+}
 const byDateDesc = (a: { date: string }, b: { date: string }) => b.date.localeCompare(a.date);
 
 /** Accepts youtu.be, youtube.com/watch?v=, /shorts/, /embed/ and /live/ links, or a bare 11-character ID. */
@@ -75,7 +94,7 @@ export const releases: Release[] = load(
 		const rawLinks = (data.links ?? {}) as Raw;
 		const links: Release['links'] = {};
 		for (const { key } of platforms) {
-			const url = text(rawLinks[key]);
+			const url = cleanUrl(rawLinks[key]);
 			if (url) links[key] = url;
 		}
 		return {
@@ -84,6 +103,7 @@ export const releases: Release[] = load(
 			artists: text(data.artists),
 			cover: text(data.cover),
 			date: text(data.date),
+			link: cleanUrl(data.link),
 			links
 		};
 	})

@@ -68,10 +68,20 @@ collections:
         format: YYYY-MM-DD
         time_format: false
         hint: Newest releases appear first; the home page shows the latest four.
+      - name: link
+        label: Listen link
+        widget: string
+        required: false
+        hint: >-
+          One link for the release — a smart link (lnk.to, vyd.co…) or a YouTube link.
+          Clicking the release opens it. Tracking bits like utm_ and fbclid are removed automatically.
       - name: links
-        label: Streaming links
+        label: Individual platform links
         widget: object
-        hint: Optional. Paste the full link for each platform the release is on.
+        collapsed: true
+        hint: >-
+          Optional. If any are filled in, clicking the release shows a "Listen on" list
+          (with the listen link above as "All platforms").
         fields:
           - { name: spotify, label: Spotify, widget: string, required: false }
           - { name: apple, label: Apple Music, widget: string, required: false }
