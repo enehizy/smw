@@ -86,7 +86,7 @@
 		grid-template-columns: 1fr auto 1fr;
 		align-items: start;
 		background: var(--red-dark);
-		color: var(--blush);
+		color: var(--on-accent);
 	}
 
 	.mv-block {
@@ -131,7 +131,7 @@
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 24px;
-		margin: 32px 0 0;
+		margin: 24px 0 0;
 		padding: 0;
 		list-style: none;
 	}
@@ -160,7 +160,7 @@
 		place-items: center;
 		width: 52px;
 		flex: none;
-		color: var(--red);
+		color: var(--red-text);
 	}
 
 	.service .card-title {
@@ -170,7 +170,7 @@
 	.arrow {
 		display: grid;
 		flex: none;
-		color: var(--black);
+		color: var(--ink);
 	}
 
 	/* Team */
@@ -178,7 +178,7 @@
 		display: grid;
 		grid-template-columns: 2fr 1.5fr 1.5fr;
 		grid-template-rows: 200px 200px;
-		margin-top: 32px;
+		margin-top: 24px;
 		border: 1px solid var(--muted);
 	}
 
@@ -207,7 +207,7 @@
 		flex-direction: column;
 		padding: 4px 8px;
 		border-radius: 5px;
-		background: rgb(255 255 255 / 0.7);
+		background: rgb(var(--bg-rgb) / 0.7);
 		backdrop-filter: blur(4px);
 	}
 

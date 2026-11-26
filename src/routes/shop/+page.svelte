@@ -58,7 +58,7 @@
 
 <style>
 	.launch {
-		background: #d9d9d9;
+		background: var(--placeholder);
 		padding: 72px var(--gutter);
 	}
 
@@ -120,7 +120,7 @@
 	}
 
 	form .field {
-		background: rgb(255 255 255 / 0.5);
+		background: rgb(var(--bg-rgb) / 0.5);
 	}
 
 	.notify :global(.success) {

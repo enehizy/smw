@@ -3,12 +3,14 @@
 	import { afterNavigate } from '$app/navigation';
 	import { nav } from '../data.ts';
 	import Logo from './Logo.svelte';
+	import ThemeToggle from './ThemeToggle.svelte';
 
 	let open = $state(false);
 	let panel: HTMLElement | undefined = $state();
 	let toggle: HTMLButtonElement | undefined = $state();
 
-	const mobileNav = [nav[0], nav[1], nav[2], { label: 'Shop', href: '/shop' }, nav[3]];
+	// Mobile order: Home, About Us, Artists & Music, News & Updates, Shop, Contact.
+	const mobileNav = [...nav.slice(0, 4), { label: 'Shop', href: '/shop' }, ...nav.slice(4)];
 
 	function isActive(href: string) {
 		const path = page.url.pathname;
@@ -55,24 +57,29 @@
 			</ul>
 		</nav>
 
-		<a
-			class="shop-link"
-			class:active={isActive('/shop')}
-			href="/shop"
-			aria-current={isActive('/shop') ? 'page' : undefined}>Shop</a
-		>
+		<div class="actions">
+			<a
+				class="shop-link"
+				class:active={isActive('/shop')}
+				href="/shop"
+				aria-current={isActive('/shop') ? 'page' : undefined}
+				>Shop<span class="badge">Coming soon</span></a
+			>
 
-		<button
-			bind:this={toggle}
-			class="menu-toggle"
-			type="button"
-			aria-expanded={open}
-			aria-controls="mobile-menu"
-			aria-label={open ? 'Close menu' : 'Open menu'}
-			onclick={() => (open = !open)}
-		>
-			<span class="bars" class:open aria-hidden="true"><span></span><span></span><span></span></span>
-		</button>
+			<ThemeToggle />
+
+			<button
+				bind:this={toggle}
+				class="menu-toggle"
+				type="button"
+				aria-expanded={open}
+				aria-controls="mobile-menu"
+				aria-label={open ? 'Close menu' : 'Open menu'}
+				onclick={() => (open = !open)}
+			>
+				<span class="bars" class:open aria-hidden="true"><span></span><span></span><span></span></span>
+			</button>
+		</div>
 	</div>
 
 	<div bind:this={panel} id="mobile-menu" class="mobile-menu" class:open hidden={!open}>
@@ -85,7 +92,8 @@
 							class="mobile-link"
 							class:active={isActive(item.href)}
 							href={item.href}
-							aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a
+							aria-current={isActive(item.href) ? 'page' : undefined}
+							>{item.label}{#if item.href === '/shop'}<span class="badge">Coming soon</span>{/if}</a
 						>
 					</li>
 				{/each}
@@ -99,7 +107,7 @@
 		position: sticky;
 		top: 0;
 		z-index: 50;
-		background: var(--white);
+		background: var(--bg);
 	}
 
 	.inner {
@@ -120,6 +128,12 @@
 
 	.desktop-nav ul {
 		display: flex;
+		gap: 8px;
+	}
+
+	.actions {
+		display: flex;
+		align-items: center;
 		gap: 16px;
 	}
 
@@ -146,13 +160,18 @@
 
 	.nav-link.active {
 		background: var(--red-dark);
-		color: var(--blush);
+		color: var(--on-accent);
+	}
+
+	.nav-link {
+		white-space: nowrap;
 	}
 
 	.shop-link {
+		position: relative;
 		padding-inline: 28px;
 		border: 1px solid var(--red);
-		color: var(--red);
+		color: var(--red-text);
 	}
 
 	.shop-link:hover {
@@ -161,7 +180,41 @@
 
 	.shop-link.active {
 		background: var(--red);
-		color: var(--blush);
+		color: var(--on-accent);
+	}
+
+	.badge {
+		position: absolute;
+		top: -9px;
+		right: -10px;
+		padding: 2px 7px;
+		border-radius: 999px;
+		background: var(--red);
+		color: var(--on-accent);
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 10px;
+		line-height: 14px;
+		letter-spacing: 0.02em;
+		white-space: nowrap;
+		pointer-events: none;
+	}
+
+	.shop-link.active .badge {
+		background: var(--dark);
+	}
+
+	.mobile-link .badge {
+		position: static;
+		margin-left: 12px;
+		font-size: 12px;
+		line-height: 16px;
+		padding: 3px 9px;
+	}
+
+	.mobile-link.active .badge {
+		background: var(--on-accent);
+		color: var(--red-dark);
 	}
 
 	.menu-toggle {
@@ -235,13 +288,13 @@
 
 	.menu-title {
 		padding: 10px;
-		border-bottom: 1px solid rgb(89 89 89 / 0.2);
+		border-bottom: 1px solid var(--line);
 		margin-bottom: 12px;
 		font-family: var(--font-display);
 		font-size: 32px;
 		line-height: 36px;
 		letter-spacing: 0.04em;
-		color: var(--red);
+		color: var(--red-text);
 	}
 
 	.mobile-menu ul {
@@ -256,7 +309,7 @@
 		min-height: 52px;
 		padding: 10px 16px;
 		border-radius: var(--radius);
-		border-bottom: 1px solid rgb(89 89 89 / 0.12);
+		border-bottom: 1px solid var(--line);
 		font-family: var(--font-heading);
 		font-weight: 600;
 		font-size: 24px;
@@ -266,13 +319,30 @@
 
 	.mobile-link.active {
 		background: var(--red-dark);
-		color: var(--blush);
+		color: var(--on-accent);
 	}
 
-	@media (max-width: 900px) {
+	/* Five links plus Shop and the theme toggle need ~1200px; tighten them first, then collapse. */
+	@media (max-width: 1360px) {
+		.nav-link {
+			padding-inline: 12px;
+			font-size: 18px;
+		}
+
+		.shop-link {
+			padding-inline: 22px;
+			font-size: 18px;
+		}
+	}
+
+	@media (max-width: 1180px) {
 		.desktop-nav,
 		.shop-link {
 			display: none;
+		}
+
+		.actions {
+			gap: 8px;
 		}
 
 		.menu-toggle {

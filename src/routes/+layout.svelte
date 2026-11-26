@@ -2,6 +2,7 @@
 	import '../app.css';
 	import Header from '#lib/components/Header.svelte';
 	import Footer from '#lib/components/Footer.svelte';
+	import BackToTop from '#lib/components/BackToTop.svelte';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
@@ -9,10 +10,11 @@
 
 <a class="skip-link" href="#main">Skip to content</a>
 <Header />
-<main id="main">
+<main id="main" tabindex="-1">
 	{@render children()}
 </main>
 <Footer />
+<BackToTop />
 
 <style>
 	.skip-link {
@@ -23,10 +25,14 @@
 		padding: 8px 16px;
 		border-radius: var(--radius);
 		background: var(--red);
-		color: var(--blush);
+		color: var(--on-accent);
 	}
 
 	.skip-link:focus {
 		top: 16px;
+	}
+
+	main:focus {
+		outline: none;
 	}
 </style>

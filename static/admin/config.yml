@@ -1,0 +1,107 @@
+# Sveltia CMS configuration — https://github.com/sveltia/sveltia-cms
+# Each saved entry is committed to the repo as one JSON file; the host rebuilds the site on push.
+
+backend:
+  name: github
+  repo: enehizy/smw
+  branch: main
+  # GitHub sign-in for editors needs the free Sveltia auth worker on Cloudflare:
+  # https://github.com/sveltia/sveltia-cms-auth — deploy it, then uncomment and set its URL:
+  # base_url: https://sveltia-cms-auth.YOUR-SUBDOMAIN.workers.dev
+
+# Uploaded images are committed here and served from /images/uploads/...
+media_folder: static/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: news
+    label: News & Updates
+    label_singular: Article
+    folder: src/content/news
+    extension: json
+    format: json
+    create: true
+    slug: '{{slug}}'
+    summary: '{{date}} — {{title}}'
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - name: summary
+        label: Summary
+        widget: text
+        hint: One or two sentences shown on the news cards.
+      - name: date
+        label: Date
+        widget: datetime
+        format: YYYY-MM-DD
+        time_format: false
+      - name: image
+        label: Thumbnail image
+        widget: image
+        required: false
+        hint: Square images work best. Leave empty to use the SMW logo.
+      - { name: body, label: Article, widget: markdown }
+
+  - name: releases
+    label: Music
+    label_singular: Release
+    folder: src/content/releases
+    extension: json
+    format: json
+    create: true
+    slug: '{{slug}}'
+    summary: '{{date}} — {{title}} ({{artists}})'
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - name: artists
+        label: Artist(s)
+        widget: string
+        hint: e.g. Big Slesh ft. Kiiwii
+      - name: cover
+        label: Cover art
+        widget: image
+        hint: Square artwork, at least 600 × 600.
+      - name: date
+        label: Release date
+        widget: datetime
+        format: YYYY-MM-DD
+        time_format: false
+        hint: Newest releases appear first; the home page shows the latest four.
+      - name: links
+        label: Streaming links
+        widget: object
+        hint: Optional. Paste the full link for each platform the release is on.
+        fields:
+          - { name: spotify, label: Spotify, widget: string, required: false }
+          - { name: apple, label: Apple Music, widget: string, required: false }
+          - { name: audiomack, label: Audiomack, widget: string, required: false }
+          - { name: boomplay, label: Boomplay, widget: string, required: false }
+          - { name: youtube, label: YouTube Music, widget: string, required: false }
+
+  - name: videos
+    label: Videos
+    label_singular: Video
+    folder: src/content/videos
+    extension: json
+    format: json
+    create: true
+    slug: '{{slug}}'
+    summary: '{{date}} — {{title}}'
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: artists, label: Artist(s), widget: string }
+      - name: youtube
+        label: YouTube link
+        widget: string
+        hint: Paste the video's YouTube link. The thumbnail is fetched automatically.
+        pattern:
+          - '(youtube\.com/(watch\?.*v=|shorts/|embed/|live/)|youtu\.be/)[\w-]{11}'
+          - Please paste a YouTube video link.
+      - name: date
+        label: Date
+        widget: datetime
+        format: YYYY-MM-DD
+        time_format: false
+        hint: Newest videos appear first.

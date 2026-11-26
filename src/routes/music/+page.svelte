@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { releases } from '#lib/data.ts';
+	import { releases } from '#lib/content.ts';
 	import PageHeading from '#lib/components/PageHeading.svelte';
 	import ReleaseGrid from '#lib/components/ReleaseGrid.svelte';
 	import VideoGrid from '#lib/components/VideoGrid.svelte';
@@ -22,8 +22,3 @@
 	<VideoGrid />
 </section>
 
-<style>
-	.stack > :global(* + *) {
-		margin-top: 24px;
-	}
-</style>

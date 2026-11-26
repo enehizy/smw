@@ -34,7 +34,7 @@
 		font-size: 24px;
 		line-height: 32px;
 		letter-spacing: -0.01em;
-		color: var(--black);
+		color: var(--ink);
 	}
 
 	.message {
@@ -43,7 +43,7 @@
 		font-size: 16px;
 		line-height: 20px;
 		letter-spacing: -0.03em;
-		color: var(--black);
+		color: var(--ink);
 	}
 
 	@keyframes pop {

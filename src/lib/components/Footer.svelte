@@ -21,7 +21,7 @@
 <style>
 	.footer {
 		padding: 24px var(--gutter);
-		background: var(--white);
+		background: var(--bg);
 	}
 
 	.inner {
@@ -44,11 +44,11 @@
 	.socials a {
 		display: grid;
 		place-items: center;
-		color: rgb(0 0 0 / 0.5);
+		color: var(--muted);
 		transition: color 0.15s ease;
 	}
 
 	.socials a:hover {
-		color: var(--red);
+		color: var(--red-text);
 	}
 </style>

@@ -81,7 +81,7 @@
 	}
 
 	.close:hover {
-		color: var(--red);
+		color: var(--red-text);
 	}
 
 	.wrap :global(.email-card),
